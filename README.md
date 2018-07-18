@@ -1,2 +1,0 @@
-# Cstreakstudio
-web appliction
