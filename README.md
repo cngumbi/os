@@ -1,2 +1,2 @@
 # Cstreakstudio
-don't run this program on your own pc
+redesign the code to meet your needs
