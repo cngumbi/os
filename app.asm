@@ -18,8 +18,8 @@ mov sp, bp
 ;load the sectors from the boot disk
 ;---------------------------------------------------------------------------------------
 
-mov bx, 0x9000			;load five sectors to ES:BX
-mov dh, 5			
+mov bx, 0x9000			;set ES:BX to 0x0000:0x9000
+mov dh, 2			;read the two sectors
 mov dl, [BT_DRIVE]
 call d_load			;call disk load
 
@@ -44,8 +44,7 @@ jmp $
 ;---------------------------------------------------------------------------------------
 ;Global variables
 ;---------------------------------------------------------------------------------------
-BT_DRIVE:
-	db 0
+BT_DRIVE:	db 0
 
 ;---------------------------------------------------------------------------------------
 ;to set the padding and BOIS magic number
@@ -56,5 +55,5 @@ dw 0xaa55
 ;---------------------------------------------------------------------------------------
 ;set additional sectors for the BIOs to load
 ;---------------------------------------------------------------------------------------
-times 256 dw 0xdada
-times 256 dw 0xface
+times 256 dw 0xdada		;sector two = 512 bytes
+times 256 dw 0xface		;sector three = 512 bytes

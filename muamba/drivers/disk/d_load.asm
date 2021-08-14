@@ -3,6 +3,7 @@
 ;----------------------------------------------------------------------------------------
 ;-----------------------load sectors to ES:BX from drive---------------------------------
 d_load:
+	pusha
 	push dx		;store dx in stack to recall the number of sector
 			;to be read
 
@@ -23,7 +24,8 @@ jc disk_err		;jump if error(i.e CF set)
 ;----------------------------------------------------------------------------------------
 pop dx			;restore dx from stack
 cmp dh, al		;if AL != DH (sector read != sector expected)
-jne disk_err		;error message
+jne sector_err		;error message when the number of sector is incorrect
+popa
 ret
 
 ;----------------------------------------------------------------------------------------
@@ -32,11 +34,19 @@ ret
 disk_err:
 	mov bx, DISK_ERR_MSG
 	call pfis
+	call pnl
+	mov dh, ah		;prints the disk that has error
+	call p_hex 
 	jmp $
+
+sector_err:
+	mov bx, SEC_ERR
+	call pfis
 
 ;----------------------------------------------------------------------------------------
 ;-----------------------variable declaration---------------------------------------------
 ;----------------------------------------------------------------------------------------
 DISK_ERR_MSG db "Disk read error!", 0
+SEC_ERR:  db "incorrect number of sector", 0
 
 
