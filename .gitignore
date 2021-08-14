@@ -1,0 +1,6 @@
+#ignore all .bin filea
+
+*.bin
+
+
+*.asm.swp
